@@ -10,8 +10,10 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class MovieApiService {
 
+    private static final String API_URL = "https://api.themoviedb.org/3";
     @Autowired
     private ConfigProperties configProperties;
+
 
     /*
     Valid Media Types
@@ -25,7 +27,14 @@ public class MovieApiService {
     - week	View the trending list for the week.
      */
     public MovieResponse getMoviesTrends() {
-        String uri = "https://api.themoviedb.org/3/trending/movie/week?api_key=" + configProperties.getTmdbApiKey();
+        String uri = API_URL + "/trending/movie/week?api_key=" + configProperties.getTmdbApiKey();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(uri, MovieResponse.class);
+    }
+
+
+    public MovieResponse searchMovies(String title) {
+        String uri = API_URL + "/search/movie?api_key=" + configProperties.getTmdbApiKey() + "&query=" + title;
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, MovieResponse.class);
     }

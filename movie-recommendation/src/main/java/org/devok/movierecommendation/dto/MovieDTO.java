@@ -1,4 +1,4 @@
-package org.devok.movierecommendation.model;
+package org.devok.movierecommendation.dto;
 
 import lombok.Getter;
 import lombok.Setter;
