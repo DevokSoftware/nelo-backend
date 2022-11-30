@@ -2,14 +2,10 @@ package org.devok.movierecommendation.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
-
-/*
- TODO // Think about store information about the Movie (title, releaseDate, etc) in the database to avoid any loss of information
-  in the future in case of External API change or a necessity to change API to other.
- */
 @Entity
 @Table(name = "MOVIES")
 @Getter
@@ -19,6 +15,23 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long externalId;
+    private Integer releaseDate;
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Person director;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_cast",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    private List<Person> cast;
+
+    @ElementCollection(targetClass = Genre.class)
+    @CollectionTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre")
+    private Set<Genre> genres;
 
     public Movie() {
     }

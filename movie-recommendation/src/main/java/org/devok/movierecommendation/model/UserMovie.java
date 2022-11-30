@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MOVIES")
+@Table(name = "USER_MOVIES")
 @Getter
 @Setter
 public class UserMovie {
