@@ -3,6 +3,7 @@ package org.devok.movierecommendation.model;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long externalId;
-    private Integer releaseDate;
+    private OffsetDateTime releaseDate;
     @ManyToOne
     @JoinColumn(name = "director_id")
     private Person director;

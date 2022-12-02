@@ -1,7 +1,9 @@
 package org.devok.movierecommendation.external.movieapi.service;
 
 import org.devok.movierecommendation.config.ConfigProperties;
-import org.devok.movierecommendation.external.movieapi.model.MovieResponse;
+import org.devok.movierecommendation.external.movieapi.model.Cast;
+import org.devok.movierecommendation.external.movieapi.model.Movie;
+import org.devok.movierecommendation.external.movieapi.model.MovieResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,16 +28,26 @@ public class MovieApiService {
     - day	View the trending list for the day.
     - week	View the trending list for the week.
      */
-    public MovieResponse getMoviesTrends() {
+    public MovieResults getMoviesTrends() {
         String uri = API_URL + "/trending/movie/week?api_key=" + configProperties.getTmdbApiKey();
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(uri, MovieResponse.class);
+        return restTemplate.getForObject(uri, MovieResults.class);
     }
 
-
-    public MovieResponse searchMovies(String title) {
+    public MovieResults searchMovies(String title) {
         String uri = API_URL + "/search/movie?api_key=" + configProperties.getTmdbApiKey() + "&query=" + title;
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(uri, MovieResponse.class);
+        return restTemplate.getForObject(uri, MovieResults.class);
+    }
+
+    public Cast getMovieCast(Long movieId) {
+        String uri = API_URL + "/movie/" + movieId + "/credits?api_key=" + configProperties.getTmdbApiKey();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(uri, Cast.class);
+    }
+    public Movie getMovieById(Long movieId) {
+        String uri = API_URL + "/movie/" + movieId + "?api_key=" + configProperties.getTmdbApiKey();
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(uri, Movie.class);
     }
 }

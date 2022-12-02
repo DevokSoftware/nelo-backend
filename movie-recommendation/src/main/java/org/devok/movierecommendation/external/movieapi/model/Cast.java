@@ -7,7 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MovieResponse {
-    private List<Movie> results;
+public class Cast {
+    private List<CastPerson> cast;
 }
-
