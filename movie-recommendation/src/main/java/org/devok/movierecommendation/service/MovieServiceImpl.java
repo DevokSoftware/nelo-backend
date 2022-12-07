@@ -9,6 +9,7 @@ import org.devok.movierecommendation.mapper.MovieMapper;
 import org.devok.movierecommendation.model.*;
 import org.devok.movierecommendation.repository.MovieRepository;
 import org.devok.movierecommendation.repository.UserMovieRepository;
+import org.devok.movierecommendation.utils.recommendation.MovieRecommendationEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private UserMovieRepository userMovieRepository;
 
+    @Autowired
+    private MovieRecommendationEngine movieRecommendationEngine;
+
     @Override
     public List<MovieDTO> getMovieTrends() {
         return movieApiMapper.mapToMovieDTOList(movieApiService.getMoviesTrends().getResults());
@@ -44,8 +48,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO getMovieRecommendation() {
-        // TODO implement here the logic to give a recommended movie based on the watched movies
-        return getMovieTrends().stream().max(Comparator.comparing(MovieDTO::getVoteAverage)).orElse(null);
+        return movieMapper.mapToMovieDTO(movieRecommendationEngine.getRecommendation());
     }
 
     @Override
