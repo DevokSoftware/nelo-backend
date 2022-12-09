@@ -8,8 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MovieResults {
-    @JsonProperty("results")
+public class PersonMovies {
+    @JsonProperty("cast")
     private List<Movie> movies;
 }
-

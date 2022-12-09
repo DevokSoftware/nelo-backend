@@ -8,7 +8,6 @@ import org.devok.movierecommendation.utils.recommendation.criteria.RecommendEngi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -25,7 +24,8 @@ public class MovieRecommendationEngine {
     }
 
     public Movie getRecommendation() {
-        recommendEngineFactory.getEngine(Criteria.randomType()).recommend();
+        List<Movie> watchedMovies = movieRepository.findByUserId(1L);
+        recommendEngineFactory.getEngine(Criteria.randomType()).recommend(watchedMovies);
         return new Movie();
     }
 }

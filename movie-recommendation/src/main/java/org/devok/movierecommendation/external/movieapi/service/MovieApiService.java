@@ -4,6 +4,7 @@ import org.devok.movierecommendation.config.ConfigProperties;
 import org.devok.movierecommendation.external.movieapi.model.Cast;
 import org.devok.movierecommendation.external.movieapi.model.Movie;
 import org.devok.movierecommendation.external.movieapi.model.MovieResults;
+import org.devok.movierecommendation.external.movieapi.model.PersonMovies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,11 @@ public class MovieApiService {
     @Autowired
     private ConfigProperties configProperties;
 
+    private RestTemplate restTemplate;
+
+    public MovieApiService() {
+        restTemplate = new RestTemplate();
+    }
 
     /*
     Valid Media Types
@@ -30,24 +36,36 @@ public class MovieApiService {
      */
     public MovieResults getMoviesTrends() {
         String uri = API_URL + "/trending/movie/week?api_key=" + configProperties.getTmdbApiKey();
-        RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, MovieResults.class);
     }
 
     public MovieResults searchMovies(String title) {
         String uri = API_URL + "/search/movie?api_key=" + configProperties.getTmdbApiKey() + "&query=" + title;
-        RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, MovieResults.class);
     }
 
     public Cast getMovieCast(Long movieId) {
         String uri = API_URL + "/movie/" + movieId + "/credits?api_key=" + configProperties.getTmdbApiKey();
-        RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, Cast.class);
     }
+
     public Movie getMovieById(Long movieId) {
         String uri = API_URL + "/movie/" + movieId + "?api_key=" + configProperties.getTmdbApiKey();
-        RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, Movie.class);
+    }
+
+    public MovieResults discoverMovieByGenre(Integer genreId) {
+        String uri = API_URL + "/discover/movie?api_key=" + configProperties.getTmdbApiKey() + "&with_genres=" + genreId;
+        return restTemplate.getForObject(uri, MovieResults.class);
+    }
+
+    public MovieResults discoverMovieByReleaseYear(Integer year) {
+        String uri = API_URL + "/discover/movie?api_key=" + configProperties.getTmdbApiKey() + "&primary_release_year=" + year;
+        return restTemplate.getForObject(uri, MovieResults.class);
+    }
+
+    public PersonMovies discoverMovieByPerson(Long personId) {
+        String uri = API_URL + "/person/" + personId + "/movie_credits?api_key=" + configProperties.getTmdbApiKey();
+        return restTemplate.getForObject(uri, PersonMovies.class);
     }
 }

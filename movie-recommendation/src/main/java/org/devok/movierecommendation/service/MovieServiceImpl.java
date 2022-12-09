@@ -1,10 +1,10 @@
 package org.devok.movierecommendation.service;
 
+import org.devok.movierecommendation.dto.MovieDTO;
 import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
 import org.devok.movierecommendation.external.movieapi.model.Cast;
 import org.devok.movierecommendation.external.movieapi.model.CastPerson;
 import org.devok.movierecommendation.external.movieapi.service.MovieApiService;
-import org.devok.movierecommendation.dto.MovieDTO;
 import org.devok.movierecommendation.mapper.MovieMapper;
 import org.devok.movierecommendation.model.*;
 import org.devok.movierecommendation.repository.MovieRepository;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieDTO> getMovieTrends() {
-        return movieApiMapper.mapToMovieDTOList(movieApiService.getMoviesTrends().getResults());
+        return movieApiMapper.mapToMovieDTOList(movieApiService.getMoviesTrends().getMovies());
     }
 
     @Override
@@ -53,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieDTO> searchMovies(String title) {
-        return movieApiMapper.mapToMovieDTOList(movieApiService.searchMovies(title).getResults());
+        return movieApiMapper.mapToMovieDTOList(movieApiService.searchMovies(title).getMovies());
     }
 
     @Override
