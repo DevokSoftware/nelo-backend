@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 import org.devok.movierecommendation.utils.OffsetDateTimeDeserializer;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.OffsetDateTime;
 
@@ -23,6 +22,7 @@ public class Movie {
     private Double voteAverage;
     private Integer popularity;
     @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     @JsonProperty("release_date")
     private OffsetDateTime releaseDate;
 }

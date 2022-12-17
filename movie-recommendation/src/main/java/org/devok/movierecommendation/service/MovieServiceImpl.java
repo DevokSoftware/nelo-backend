@@ -77,13 +77,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Person fetchDirector(Cast cast) {
-        Optional<CastPerson> cp = cast.getCast().stream().filter(c -> c.getJob().equals("Director")).findFirst();
+        Optional<CastPerson> cp = cast.getCast().stream().filter(c -> c.getJob() != null && c.getJob().equals("Director")).findFirst();
         return cp.map(castPerson -> new Person(castPerson.getId(), castPerson.getName())).orElse(null);
     }
 
     private List<Person> fetchActors(Cast cast) {
         List<Person> result = new ArrayList<>();
-        List<CastPerson> castList = cast.getCast().stream().filter(c -> c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
+        List<CastPerson> castList = cast.getCast().stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
         for (CastPerson cp : castList) {
             result.add(new Person(cp.getId(), cp.getName()));
         }

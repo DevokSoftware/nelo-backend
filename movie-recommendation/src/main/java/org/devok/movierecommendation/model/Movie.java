@@ -2,6 +2,7 @@ package org.devok.movierecommendation.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,11 +18,12 @@ public class Movie {
     private Long id;
     private Long externalId;
     private OffsetDateTime releaseDate;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "director_id")
     private Person director;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "movie_cast",
             joinColumns = @JoinColumn(name = "movie_id"),
