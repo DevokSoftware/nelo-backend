@@ -1,5 +1,9 @@
 package org.devok.movierecommendation.model;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public enum Genre {
     ACTION(28),
     ADVENTURE(12),
@@ -28,5 +32,18 @@ public enum Genre {
 
     public int getId() {
         return id;
+    }
+
+    private static final Map<Integer,Genre> ENUM_MAP;
+    static {
+        Map<Integer,Genre> map = new ConcurrentHashMap<>();
+        for (Genre instance : Genre.values()) {
+            map.put(instance.getId(),instance);
+        }
+        ENUM_MAP = Collections.unmodifiableMap(map);
+    }
+
+    public static Genre getGenreById (int genreId) {
+        return ENUM_MAP.get(genreId);
     }
 }

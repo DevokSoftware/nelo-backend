@@ -1,7 +1,7 @@
 package org.devok.movierecommendation.external.movieapi.service;
 
 import org.devok.movierecommendation.config.ConfigProperties;
-import org.devok.movierecommendation.external.movieapi.model.Cast;
+import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
 import org.devok.movierecommendation.external.movieapi.model.Movie;
 import org.devok.movierecommendation.external.movieapi.model.MovieResults;
 import org.devok.movierecommendation.external.movieapi.model.PersonMovies;
@@ -44,9 +44,9 @@ public class MovieApiService {
         return restTemplate.getForObject(uri, MovieResults.class);
     }
 
-    public Cast getMovieCast(Long movieId) {
+    public MovieCredits getMovieCredits(Long movieId) {
         String uri = API_URL + "/movie/" + movieId + "/credits?api_key=" + configProperties.getTmdbApiKey();
-        return restTemplate.getForObject(uri, Cast.class);
+        return restTemplate.getForObject(uri, MovieCredits.class);
     }
 
     public Movie getMovieById(Long movieId) {

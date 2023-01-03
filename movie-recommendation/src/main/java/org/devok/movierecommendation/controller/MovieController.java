@@ -37,7 +37,6 @@ public class MovieController {
         movieService.addWatchedMovie(movieId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
 
 

@@ -8,15 +8,16 @@ import lombok.Setter;
 import org.devok.movierecommendation.utils.OffsetDateTimeDeserializer;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 public class Movie {
+    private String id;
     private String title;
     @JsonProperty("original_title")
     private String originalTitle;
-    @JsonProperty("genre_ids")
-    private Integer[] genreIds;
+    private List<MovieGenre> genres;
     private String overview;
     @JsonProperty("vote_average")
     private Double voteAverage;

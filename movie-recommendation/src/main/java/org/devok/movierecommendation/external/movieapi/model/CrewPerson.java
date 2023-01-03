@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CastPerson extends Person{
-    private Integer order;
+public class CrewPerson extends Person{
+    private String job;
 }

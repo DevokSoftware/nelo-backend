@@ -2,7 +2,8 @@ package org.devok.movierecommendation.service;
 
 import org.devok.movierecommendation.dto.MovieDTO;
 import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
-import org.devok.movierecommendation.external.movieapi.model.Cast;
+import org.devok.movierecommendation.external.movieapi.model.CrewPerson;
+import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
 import org.devok.movierecommendation.external.movieapi.model.CastPerson;
 import org.devok.movierecommendation.external.movieapi.service.MovieApiService;
 import org.devok.movierecommendation.mapper.MovieMapper;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -47,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO getMovieRecommendation() {
-        return movieMapper.mapToMovieDTO(movieRecommendationEngine.getRecommendation());
+        return movieRecommendationEngine.getRecommendation();
     }
 
     @Override
@@ -69,24 +72,34 @@ public class MovieServiceImpl implements MovieService {
     private Movie createMovie(Long movieExternalId) {
         MovieDTO movieDTO = movieApiMapper.mapToMovieDTO(movieApiService.getMovieById(movieExternalId));
         Movie movie = movieMapper.mapToMovie(movieDTO);
-        Cast cast = movieApiService.getMovieCast(movieExternalId);
-        movie.setDirector(fetchDirector(cast));
-        movie.setCast(fetchActors(cast));
+        MovieCredits movieCredits = movieApiService.getMovieCredits(movieExternalId);
+        movie.setDirector(fetchDirector(movieCredits.getCrew()));
+        movie.setCast(fetchActors(movieCredits.getCast()));
+        movie.setGenres(fetchGenres(movieDTO.getGenreIds()));
         movieRepository.save(movie);
         return movie;
     }
 
-    private Person fetchDirector(Cast cast) {
-        Optional<CastPerson> cp = cast.getCast().stream().filter(c -> c.getJob() != null && c.getJob().equals("Director")).findFirst();
-        return cp.map(castPerson -> new Person(castPerson.getId(), castPerson.getName())).orElse(null);
+    private Person fetchDirector(List<CrewPerson> crew) {
+        Optional<CrewPerson> cp = crew.stream().filter(c -> c.getJob() != null && c.getJob().equals("Director")).findFirst();
+        return cp.map(crewPerson -> new Person(crewPerson.getId(), crewPerson.getName())).orElse(null);
     }
 
-    private List<Person> fetchActors(Cast cast) {
+    private List<Person> fetchActors(List<CastPerson> cast) {
         List<Person> result = new ArrayList<>();
-        List<CastPerson> castList = cast.getCast().stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
+        List<CastPerson> castList = cast.stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
         for (CastPerson cp : castList) {
             result.add(new Person(cp.getId(), cp.getName()));
         }
         return result;
+    }
+
+    private Set<Genre> fetchGenres(Integer[] genresIds) {
+        Set<Genre> genres = new HashSet<>();
+        for (int genreId : genresIds) {
+            genres.add(Genre.getGenreById(genreId));
+        }
+
+        return genres;
     }
 }
