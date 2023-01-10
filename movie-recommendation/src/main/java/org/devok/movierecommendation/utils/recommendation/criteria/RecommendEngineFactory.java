@@ -38,6 +38,6 @@ public class RecommendEngineFactory {
         if (criteria == Criteria.RELEASE_DATE) {
             return myServiceCache.get(Criteria.RELEASE_DATE);
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 }

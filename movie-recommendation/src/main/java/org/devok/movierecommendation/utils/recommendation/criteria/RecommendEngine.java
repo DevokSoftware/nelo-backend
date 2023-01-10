@@ -24,8 +24,7 @@ public abstract class RecommendEngine {
         this.rand = new Random();
     }
 
-
-    //TODO Search if it better to use an optional
+    //TODO Search if it's better to use an optional
     public abstract MovieDTO recommend(List<UserMovie> watchedMovies);
     public abstract Criteria getCriteriaType();
 

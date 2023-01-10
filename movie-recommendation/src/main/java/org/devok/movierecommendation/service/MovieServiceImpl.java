@@ -1,6 +1,7 @@
 package org.devok.movierecommendation.service;
 
 import org.devok.movierecommendation.dto.MovieDTO;
+import org.devok.movierecommendation.dto.RecommendationDTO;
 import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
 import org.devok.movierecommendation.external.movieapi.model.CrewPerson;
 import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
@@ -49,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO getMovieRecommendation() {
+    public RecommendationDTO getMovieRecommendation() {
         return movieRecommendationEngine.getRecommendation();
     }
 

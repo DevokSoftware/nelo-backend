@@ -1,6 +1,7 @@
 package org.devok.movierecommendation.utils.recommendation;
 
 import org.devok.movierecommendation.dto.MovieDTO;
+import org.devok.movierecommendation.dto.RecommendationDTO;
 import org.devok.movierecommendation.model.UserMovie;
 import org.devok.movierecommendation.repository.UserMovieRepository;
 import org.devok.movierecommendation.utils.recommendation.criteria.Criteria;
@@ -21,8 +22,10 @@ public class MovieRecommendationEngine {
         this.recommendEngineFactory = recommendEngineFactory;
     }
 
-    public MovieDTO getRecommendation() {
+    public RecommendationDTO getRecommendation() {
         List<UserMovie> watchedMovies = userMovieRepository.findByIdUserId(1L);
-        return recommendEngineFactory.getEngine(Criteria.randomType()).recommend(watchedMovies);
+        Criteria criteria = Criteria.randomType();
+        MovieDTO movie = recommendEngineFactory.getEngine(criteria).recommend(watchedMovies);
+        return new RecommendationDTO(movie, criteria);
     }
 }

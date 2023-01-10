@@ -12,7 +12,8 @@ import java.util.List;
 public interface MovieApiMapper {
     @Mapping(target = "externalId", source = "id")
     @Mapping(target = "id", expression = "java(null)")
-    @Mapping(target = "genreIds", expression = "java(mapGenres(movie.getGenres()))")
+    //@Mapping(target = "genreIds", expression = "java(mapGenres(movie.getGenres()))")
+    @Mapping(target = "genreIds", source = "genres")
     MovieDTO mapToMovieDTO(Movie movie);
 
     List<MovieDTO> mapToMovieDTOList(List<Movie> moviesResults);

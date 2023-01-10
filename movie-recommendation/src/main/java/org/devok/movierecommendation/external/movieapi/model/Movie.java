@@ -17,7 +17,8 @@ public class Movie {
     private String title;
     @JsonProperty("original_title")
     private String originalTitle;
-    private List<MovieGenre> genres;
+    @JsonProperty("genre_ids")
+    private Integer[] genres;
     private String overview;
     @JsonProperty("vote_average")
     private Double voteAverage;
