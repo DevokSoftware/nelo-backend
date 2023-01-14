@@ -6,6 +6,8 @@ import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
 import org.devok.movierecommendation.external.movieapi.model.CrewPerson;
 import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
 import org.devok.movierecommendation.external.movieapi.model.CastPerson;
+import org.devok.movierecommendation.external.movieapi.model.MovieDetails;
+import org.devok.movierecommendation.external.movieapi.model.MovieGenre;
 import org.devok.movierecommendation.external.movieapi.service.MovieApiService;
 import org.devok.movierecommendation.mapper.MovieMapper;
 import org.devok.movierecommendation.model.*;
@@ -71,12 +73,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Movie createMovie(Long movieExternalId) {
-        MovieDTO movieDTO = movieApiMapper.mapToMovieDTO(movieApiService.getMovieById(movieExternalId));
-        Movie movie = movieMapper.mapToMovie(movieDTO);
+        MovieDetails movieDetails = movieApiService.getMovieById(movieExternalId);
+        Movie movie = movieMapper.mapToMovie(movieDetails);
         MovieCredits movieCredits = movieApiService.getMovieCredits(movieExternalId);
         movie.setDirector(fetchDirector(movieCredits.getCrew()));
         movie.setCast(fetchActors(movieCredits.getCast()));
-        movie.setGenres(fetchGenres(movieDTO.getGenreIds()));
+        movie.setGenres(fetchGenres(movieDetails.getMovieGenres()));
         movieRepository.save(movie);
         return movie;
     }
@@ -95,12 +97,11 @@ public class MovieServiceImpl implements MovieService {
         return result;
     }
 
-    private Set<Genre> fetchGenres(Integer[] genresIds) {
+    private Set<Genre> fetchGenres(List<MovieGenre> movieGenres) {
         Set<Genre> genres = new HashSet<>();
-        for (int genreId : genresIds) {
-            genres.add(Genre.getGenreById(genreId));
+        for (MovieGenre movieGenre : movieGenres) {
+            genres.add(Genre.getGenreById(movieGenre.getId()));
         }
-
         return genres;
     }
 }

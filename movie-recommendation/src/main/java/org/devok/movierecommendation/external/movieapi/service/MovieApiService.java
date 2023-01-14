@@ -3,6 +3,7 @@ package org.devok.movierecommendation.external.movieapi.service;
 import org.devok.movierecommendation.config.ConfigProperties;
 import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
 import org.devok.movierecommendation.external.movieapi.model.Movie;
+import org.devok.movierecommendation.external.movieapi.model.MovieDetails;
 import org.devok.movierecommendation.external.movieapi.model.MovieResults;
 import org.devok.movierecommendation.external.movieapi.model.PersonMovies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,9 @@ public class MovieApiService {
         return restTemplate.getForObject(uri, MovieCredits.class);
     }
 
-    public Movie getMovieById(Long movieId) {
+    public MovieDetails getMovieById(Long movieId) {
         String uri = API_URL + "/movie/" + movieId + "?api_key=" + configProperties.getTmdbApiKey();
-        return restTemplate.getForObject(uri, Movie.class);
+        return restTemplate.getForObject(uri, MovieDetails.class);
     }
 
     public MovieResults discoverMovieByGenre(Integer genreId) {
