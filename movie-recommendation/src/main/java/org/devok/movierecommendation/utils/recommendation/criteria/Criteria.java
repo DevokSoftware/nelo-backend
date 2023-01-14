@@ -3,10 +3,10 @@ package org.devok.movierecommendation.utils.recommendation.criteria;
 import java.util.*;
 
 public enum Criteria {
-    GENRE(10),
-    DIRECTOR(1),
-    CAST(5),
-    RELEASE_DATE(20);
+    GENRE(15),
+    DIRECTOR(35),
+    CAST(35),
+    RELEASE_DATE(15);
 
 
     private int weight;
