@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RecommendationDTO {
     private MovieDTO movie;
+    //TODO create DTO for this
     private Criteria criteria;
 }

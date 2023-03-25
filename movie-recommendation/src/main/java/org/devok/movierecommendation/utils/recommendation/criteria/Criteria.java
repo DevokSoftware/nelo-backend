@@ -8,8 +8,7 @@ public enum Criteria {
     CAST(35),
     RELEASE_DATE(15);
 
-
-    private int weight;
+    private final int weight;
 
     private Criteria(int weight) {
         this.weight = weight;

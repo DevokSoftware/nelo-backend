@@ -16,6 +16,10 @@ public class OffsetDateTimeDeserializer extends JsonDeserializer<OffsetDateTime>
 
     @Override
     public OffsetDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        if(parser.getText().isEmpty()){
+            // TODO check if this makes sense
+            return OffsetDateTime.now();
+        }
         return LocalDate.parse(parser.getText(), formatter).atStartOfDay(ZoneOffset.UTC).toOffsetDateTime();
     }
 }
