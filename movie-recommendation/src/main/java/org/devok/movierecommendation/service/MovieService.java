@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface MovieService {
     List<MovieDTO> getMovieTrends();
-    RecommendationDTO getMovieRecommendation();
+    RecommendationDTO getMovieRecommendation(Long watchedMovieId);
     List<MovieDTO> searchMovies(String title);
-    void addWatchedMovie(Long movieId);
 }

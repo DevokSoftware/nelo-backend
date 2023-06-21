@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MovieDTO {
-    private String id;
     private String externalId;
     private String title;
     private String originalTitle;

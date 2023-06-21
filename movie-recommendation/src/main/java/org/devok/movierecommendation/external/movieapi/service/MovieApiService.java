@@ -2,11 +2,9 @@ package org.devok.movierecommendation.external.movieapi.service;
 
 import org.devok.movierecommendation.config.ConfigProperties;
 import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
-import org.devok.movierecommendation.external.movieapi.model.Movie;
 import org.devok.movierecommendation.external.movieapi.model.MovieDetails;
 import org.devok.movierecommendation.external.movieapi.model.MovieResults;
 import org.devok.movierecommendation.external.movieapi.model.PersonMovies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,12 +13,12 @@ import org.springframework.web.client.RestTemplate;
 public class MovieApiService {
 
     private static final String API_URL = "https://api.themoviedb.org/3";
-    @Autowired
-    private ConfigProperties configProperties;
 
-    private RestTemplate restTemplate;
+    private final ConfigProperties configProperties;
+    private final RestTemplate restTemplate;
 
-    public MovieApiService() {
+    public MovieApiService(ConfigProperties configProperties) {
+        this.configProperties = configProperties;
         restTemplate = new RestTemplate();
     }
 

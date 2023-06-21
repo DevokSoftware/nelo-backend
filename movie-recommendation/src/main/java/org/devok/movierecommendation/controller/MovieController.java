@@ -1,16 +1,16 @@
 package org.devok.movierecommendation.controller;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.devok.movierecommendation.dto.MovieDTO;
+import org.devok.movierecommendation.dto.RecommendationDTO;
 import org.devok.movierecommendation.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,29 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class MovieController {
+    private final MovieService movieService;
 
-    @Autowired
-    private MovieService movieService;
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @GetMapping("/trends")
-    public ResponseEntity<?> getMovies() {
+    public ResponseEntity<List<MovieDTO>> getMovies() {
         return new ResponseEntity<>(movieService.getMovieTrends(), HttpStatus.OK);
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<?> getMovieRecommendation() {
-        return new ResponseEntity<>(movieService.getMovieRecommendation(), HttpStatus.OK);
+    public ResponseEntity<RecommendationDTO> getMovieRecommendation(@RequestParam("watchedMovieId") Long watchedMovieId) {
+        return new ResponseEntity<>(movieService.getMovieRecommendation(watchedMovieId), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchMovie(@RequestParam("title") String title) {
+    public ResponseEntity<List<MovieDTO>> searchMovies(@RequestParam("title") String title) {
         return new ResponseEntity<>(movieService.searchMovies(title), HttpStatus.OK);
-    }
-
-    @PostMapping("/watched")
-    public ResponseEntity<?> addWatchedMovie(@RequestBody MovieDTO movie) {
-        movieService.addWatchedMovie(Long.parseLong(movie.getExternalId()));
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

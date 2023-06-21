@@ -2,7 +2,6 @@ package org.devok.movierecommendation.external.movieapi.mapper;
 
 import org.devok.movierecommendation.external.movieapi.model.Movie;
 import org.devok.movierecommendation.dto.MovieDTO;
-import org.devok.movierecommendation.external.movieapi.model.MovieDetails;
 import org.devok.movierecommendation.external.movieapi.model.MovieGenre;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +12,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MovieApiMapper {
     @Mapping(target = "externalId", source = "id")
-    @Mapping(target = "id", expression = "java(null)")
     //@Mapping(target = "genreIds", expression = "java(mapGenres(movie.getGenres()))")
     @Mapping(target = "genreIds", source = "genres")
     @Mapping(target = "releaseYear", expression = "java(getYearFromDate(movie.getReleaseDate()))")

@@ -2,23 +2,22 @@ package org.devok.movierecommendation.utils.recommendation.criteria;
 
 import org.devok.movierecommendation.dto.MovieDTO;
 import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
+import org.devok.movierecommendation.external.movieapi.model.CastPerson;
+import org.devok.movierecommendation.external.movieapi.model.MovieCredits;
 import org.devok.movierecommendation.external.movieapi.model.PersonMovies;
 import org.devok.movierecommendation.external.movieapi.service.MovieApiService;
-import org.devok.movierecommendation.model.Movie;
-import org.devok.movierecommendation.model.Person;
-import org.devok.movierecommendation.model.UserMovie;
-import org.devok.movierecommendation.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CastCriteria extends RecommendEngine {
     @Autowired
-    public CastCriteria(MovieApiService movieApiService, MovieRepository movieRepository, MovieApiMapper movieApiMapper) {
-        super(movieApiService, movieRepository, movieApiMapper);
+    public CastCriteria(MovieApiService movieApiService, MovieApiMapper movieApiMapper) {
+        super(movieApiService, movieApiMapper);
     }
 
     @Override
@@ -27,14 +26,18 @@ public class CastCriteria extends RecommendEngine {
     }
 
     @Override
-    public MovieDTO recommend(List<UserMovie> watchedMovies) {
-        Movie randomMovie = getRandomWatchedMovie(watchedMovies);
-        int randomNumber = rand.nextInt(randomMovie.getCast().size());
-        Optional<Person> actor = randomMovie.getCast().stream().skip(randomNumber).findFirst();
+    public MovieDTO recommend(Long watchedMovieId) {
+        MovieCredits watchedMovieCredits = movieApiService.getMovieCredits(watchedMovieId);
+        Optional<CastPerson> actor = getRandomActorFromWatchedMovie(watchedMovieCredits.getCast());
         if (actor.isPresent()) {
-            PersonMovies actorMovies = movieApiService.discoverMovieByPerson(actor.get().getExternalId());
+            PersonMovies actorMovies = movieApiService.discoverMovieByPerson(actor.get().getId());
             return getMovieFromResults(actorMovies.getMovies());
         }
         return null;
+    }
+
+    private Optional<CastPerson> getRandomActorFromWatchedMovie(List<CastPerson> cast) {
+        List<CastPerson> filteredCast = cast.stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
+        return filteredCast.stream().skip(rand.nextInt(filteredCast.size())).findFirst();
     }
 }
