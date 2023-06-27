@@ -2,6 +2,7 @@ package org.devok.movierecommendation.utils.recommendation.criteria;
 
 import org.devok.movierecommendation.dto.MovieDTO;
 import org.devok.movierecommendation.external.movieapi.mapper.MovieApiMapper;
+import org.devok.movierecommendation.external.movieapi.model.Movie;
 import org.devok.movierecommendation.external.movieapi.service.MovieApiService;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public abstract class RecommendEngine {
     public abstract MovieDTO recommend(Long watchedMovieId);
     public abstract Criteria getCriteriaType();
 
-    protected MovieDTO getMovieFromResults(List<org.devok.movierecommendation.external.movieapi.model.Movie> movies) {
+    protected MovieDTO getMovieFromResults(List<Movie> movies) {
         List<MovieDTO> foundMovies = movieApiMapper.mapToMovieDTOList(movies);
         if (!foundMovies.isEmpty()) {
             //TODO maybe choose the movie using some criteria, like rating, popularity or something

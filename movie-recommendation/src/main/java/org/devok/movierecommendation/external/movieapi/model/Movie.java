@@ -26,4 +26,6 @@ public class Movie {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     @JsonProperty("release_date")
     private OffsetDateTime releaseDate;
+    @JsonProperty("poster_path")
+    private String imageUrl;
 }

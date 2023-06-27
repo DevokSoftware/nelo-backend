@@ -13,4 +13,5 @@ public class MovieDTO {
     private String overview;
     private Double voteAverage;
     private Integer releaseYear;
+    private String imageUrl;
 }
