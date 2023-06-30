@@ -22,7 +22,7 @@ public abstract class RecommendEngine {
 
     //TODO Search if it's better to use an optional
     public abstract MovieDTO recommend(Long watchedMovieId);
-    public abstract Criteria getCriteriaType();
+    public abstract CriteriaEnum getCriteriaType();
 
     protected MovieDTO getMovieFromResults(List<Movie> movies) {
         List<MovieDTO> foundMovies = movieApiMapper.mapToMovieDTOList(movies);

@@ -17,26 +17,29 @@ public class RecommendEngineFactory {
     @Autowired
     private List<RecommendEngine> recommendEngines;
 
-    private static final Map<Criteria, RecommendEngine> myServiceCache = new HashMap<>();
+    private static final Map<CriteriaEnum, RecommendEngine> myServiceCache = new HashMap<>();
     @PostConstruct
     public void initMyServiceCache() {
         for(RecommendEngine engine : recommendEngines) {
             myServiceCache.put(engine.getCriteriaType(), engine);
         }
     }
-    public RecommendEngine getEngine(Criteria criteria) {
-        log.info("Recommendation Engine: " + criteria);
-        if (criteria == Criteria.GENRE) {
-            return myServiceCache.get(Criteria.GENRE);
+    public RecommendEngine getEngine(CriteriaEnum criteriaEnum) {
+        log.info("Recommendation Engine: " + criteriaEnum);
+        if (criteriaEnum == CriteriaEnum.GENRE) {
+            return myServiceCache.get(CriteriaEnum.GENRE);
         }
-        if (criteria == Criteria.CAST) {
-            return myServiceCache.get(Criteria.CAST);
+        if (criteriaEnum == CriteriaEnum.CAST) {
+            return myServiceCache.get(CriteriaEnum.CAST);
         }
-        if (criteria == Criteria.DIRECTOR) {
-            return myServiceCache.get(Criteria.DIRECTOR);
+        if (criteriaEnum == CriteriaEnum.DIRECTOR) {
+            return myServiceCache.get(CriteriaEnum.DIRECTOR);
         }
-        if (criteria == Criteria.RELEASE_DATE) {
-            return myServiceCache.get(Criteria.RELEASE_DATE);
+        if (criteriaEnum == CriteriaEnum.RELEASE_DATE) {
+            return myServiceCache.get(CriteriaEnum.RELEASE_DATE);
+        }
+        if (criteriaEnum == CriteriaEnum.TRENDING) {
+            return myServiceCache.get(CriteriaEnum.TRENDING);
         }
         throw new IllegalArgumentException();
     }

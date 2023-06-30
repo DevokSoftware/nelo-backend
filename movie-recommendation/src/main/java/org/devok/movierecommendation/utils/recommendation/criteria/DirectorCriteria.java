@@ -21,8 +21,8 @@ public class DirectorCriteria extends RecommendEngine {
     }
 
     @Override
-    public Criteria getCriteriaType() {
-        return Criteria.DIRECTOR;
+    public CriteriaEnum getCriteriaType() {
+        return CriteriaEnum.DIRECTOR;
     }
 
     @Override

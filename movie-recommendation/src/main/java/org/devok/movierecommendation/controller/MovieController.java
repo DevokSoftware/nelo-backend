@@ -30,7 +30,7 @@ public class MovieController {
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<RecommendationDTO> getMovieRecommendation(@RequestParam("watchedMovieId") Long watchedMovieId) {
+    public ResponseEntity<RecommendationDTO> getMovieRecommendation(@RequestParam(value = "watchedMovieId", required = false) Long watchedMovieId) {
         return new ResponseEntity<>(movieService.getMovieRecommendation(watchedMovieId), HttpStatus.OK);
     }
 

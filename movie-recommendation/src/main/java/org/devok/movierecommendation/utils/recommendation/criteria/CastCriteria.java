@@ -21,8 +21,8 @@ public class CastCriteria extends RecommendEngine {
     }
 
     @Override
-    public Criteria getCriteriaType() {
-        return Criteria.CAST;
+    public CriteriaEnum getCriteriaType() {
+        return CriteriaEnum.CAST;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CastCriteria extends RecommendEngine {
     }
 
     private Optional<CastPerson> getRandomActorFromWatchedMovie(List<CastPerson> cast) {
-        List<CastPerson> filteredCast = cast.stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 6).collect(Collectors.toList());
+        List<CastPerson> filteredCast = cast.stream().filter(c -> c.getDepartment() != null && c.getDepartment().equals("Acting") && c.getOrder() < 3).collect(Collectors.toList());
         return filteredCast.stream().skip(rand.nextInt(filteredCast.size())).findFirst();
     }
 }

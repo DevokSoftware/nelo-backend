@@ -20,8 +20,8 @@ public class GenreCriteria extends RecommendEngine {
     }
 
     @Override
-    public Criteria getCriteriaType() {
-        return Criteria.GENRE;
+    public CriteriaEnum getCriteriaType() {
+        return CriteriaEnum.GENRE;
     }
 
     @Override

@@ -17,11 +17,11 @@ public class Movie {
     @JsonProperty("original_title")
     private String originalTitle;
     @JsonProperty("genre_ids")
-    private Integer[] genres;
+    private int[] genres;
     private String overview;
     @JsonProperty("vote_average")
     private Double voteAverage;
-    private Integer popularity;
+    private int popularity;
     @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     @JsonProperty("release_date")
